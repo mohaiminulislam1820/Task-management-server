@@ -54,3 +54,15 @@ app.delete('/delete-task/:id', async (req, res) => {
 
     res.send(result);
 })
+
+app.patch('/update-task-status/:id', async (req, res) => {
+    const query = { _id: new ObjectId(req.params.id) };
+    const updateDoc = { $set: req.body };
+  
+    const collection = await client.db('Task-management').collection('task-crud');
+  
+    const result = await collection.updateOne(query, updateDoc);
+  
+    res.send(result);
+  
+  })
