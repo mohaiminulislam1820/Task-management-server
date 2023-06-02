@@ -3,8 +3,9 @@ const app = express();
 const cors = require('cors');
 require('dotenv').config();
 
-app.use(express.json());
 app.use(cors());
+app.use(express.json());
+
 
 const PORT = process.env.PORT || 3000;
 
@@ -34,4 +35,12 @@ app.get('/tasks',async(req,res)=>{
     const collection=await client.db('Task-management').collection('task-crud');
     const result=await collection.find({}).toArray();
     res.send(result);
-})
+});
+
+app.post('/add-task', async (req, res) => {
+    const task=req.body;
+    const collection=await client.db('Task-management').collection('task-crud');
+
+    const result = await collection.insertOne(task);
+    res.send(result);
+});
